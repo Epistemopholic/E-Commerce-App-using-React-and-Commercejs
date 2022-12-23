@@ -142,7 +142,11 @@ export default ProductDetails;
     <img src="{singleProduct.assets[0].url}" width="100px" alt="Product" />
   </Col>
   <Col className="d-flex justify-content-evenly">
+<<<<<<< HEAD
     <img src="{singleProduct.assets[2].url}" width="100px" alt="Product" />
+=======
+    <img src="{singleProduct.assets[1].url}" width="100px" alt="Product" />
+>>>>>>> d081ebb30e83e31a0ac9f124f9911dab12efb15a
   </Col>
 </Row>;
 */
