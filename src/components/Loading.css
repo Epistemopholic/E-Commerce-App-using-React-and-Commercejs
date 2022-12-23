@@ -1,0 +1,12 @@
+.custom {
+  position: relative;
+  text-align: center;
+}
+
+.box {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding-top: 10vh;
+  color: #ffdaba;
+}

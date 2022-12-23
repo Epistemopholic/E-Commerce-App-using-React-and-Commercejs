@@ -1,0 +1,13 @@
+@media (max-width: 576px) {
+  .sf1 {
+    display: flex;
+    justify-content: center;
+    float: none !important;
+    padding-bottom: 10px;
+  }
+  .sf2 {
+    display: flex;
+    justify-content: center;
+    float: none !important;
+  }
+}
