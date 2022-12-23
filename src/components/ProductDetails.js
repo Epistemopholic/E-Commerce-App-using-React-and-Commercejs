@@ -32,9 +32,6 @@ function ProductDetails({ singleProduct, onAddToCart }) {
   };
   const [varient, setVarient] = useState("");
   const [vG, setVG] = useState("");
-  console.log(vG);
-  console.log(varient);
-  console.log(singleProduct);
 
   return (
     <>
