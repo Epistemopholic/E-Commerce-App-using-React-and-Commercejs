@@ -1,0 +1,6 @@
+{
+  "short_name": "Steinfield",
+  "name": "E-Commerce Website using React & Bootstrap",
+  "start_url": "/",
+  "display": "standalone"
+}

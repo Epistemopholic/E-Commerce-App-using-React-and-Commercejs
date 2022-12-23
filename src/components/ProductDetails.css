@@ -1,0 +1,36 @@
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: fit-content;
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 0.6rem 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.quantity-btn {
+  background: white;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0px 8px;
+}
+
+.quantity-input {
+  outline: none;
+  user-select: none;
+  text-align: center;
+  width: 47px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+}
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
