@@ -29,11 +29,9 @@ function Product() {
     vareintGroup,
     vareintOpt
   ) => {
-    await commerce.cart
-      .add(productID, productQuantity, { [vareintGroup]: vareintOpt })
-      .then((cartItems) => {
-        setCart(cartItems.cart);
-      });
+    await commerce.cart.add(productID, productQuantity).then((cartItems) => {
+      setCart(cartItems.cart);
+    });
   };
   useEffect(() => {
     fetchProducts();

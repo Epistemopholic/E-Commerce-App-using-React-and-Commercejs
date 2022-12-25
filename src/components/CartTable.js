@@ -4,7 +4,6 @@ import Table from "react-bootstrap/Table";
 import { BsBagCheck } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import CartTableData from "./CartTableData";
-import "./CartTable.css";
 function CartTable({ product, getID, getIQ }) {
   const removeFromCart_1 = (getID_2) => {
     getID(getID_2);
@@ -26,7 +25,7 @@ function CartTable({ product, getID, getIQ }) {
                 <div className="text-uppercase">Quantity</div>
               </th>
               <th>
-                <div className="text-uppercase">Total Price</div>
+                <div className="text-uppercase">Total</div>
               </th>
               <th>
                 <div className="text-uppercase">Actions</div>

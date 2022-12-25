@@ -3,8 +3,10 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import React, { useEffect, useState } from "react";
 import { commerce } from "../lib/commerce";
+import { FaStream } from "react-icons/fa";
+import Button from "react-bootstrap/Form";
 
-function CheckoutForm({ cartToken }) {
+function CheckoutForm({ cartToken, getCheckoutData }) {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
   const [province, setProvince] = useState("");
@@ -18,7 +20,29 @@ function CheckoutForm({ cartToken }) {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [payment, setPayment] = useState("");
-
+  const [postalCode, setPostalCode] = useState("");
+  const [validated, setValidated] = useState(false);
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+      setValidated(true);
+      getCheckoutData(
+        country,
+        province,
+        shipping,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        address,
+        city,
+        postalCode
+      );
+    }
+  };
   const checkoutCountry = async () => {
     await commerce.services
       .localeListShippingCountries(cartToken.id)
@@ -56,7 +80,7 @@ function CheckoutForm({ cartToken }) {
       })
       .then((options) => {
         setShippings(options);
-        setShipping(options[0].id);
+        setShipping(options[1].id);
       });
   };
 
@@ -84,7 +108,7 @@ function CheckoutForm({ cartToken }) {
         Enter Your Details
         <hr></hr>
       </div>
-      <Form className="mx-2 py-2 px-2">
+      <Form className="mx-2 py-2 px-2" noValidate validated={validated}>
         <Row>
           <Form.Group>
             <Form.Label className="fw-bold">Name</Form.Label>
@@ -98,6 +122,7 @@ function CheckoutForm({ cartToken }) {
                 onChange={(e) => {
                   setFirstName(e.target.value);
                 }}
+                required
               />
             </Form.Group>
           </Col>
@@ -110,7 +135,7 @@ function CheckoutForm({ cartToken }) {
                 onChange={(e) => {
                   setLastName(e.target.value);
                 }}
-                required={true}
+                required
               />
             </Form.Group>
           </Col>
@@ -120,12 +145,13 @@ function CheckoutForm({ cartToken }) {
             <Form.Group>
               <Form.Label className="fw-bold">Email Address</Form.Label>
               <Form.Control
-                type="email"
+                type="text"
                 placeholder="Email Address"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                required
               />
             </Form.Group>
           </Col>
@@ -139,6 +165,7 @@ function CheckoutForm({ cartToken }) {
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
                 }}
+                required
               />
             </Form.Group>
           </Col>
@@ -155,6 +182,21 @@ function CheckoutForm({ cartToken }) {
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group>
+              <Form.Label className="fw-bold">Postal Code</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Postal Code"
+                value={postalCode}
+                onChange={(e) => {
+                  setPostalCode(e.target.value);
+                }}
+                required
               />
             </Form.Group>
           </Col>
@@ -170,6 +212,7 @@ function CheckoutForm({ cartToken }) {
                 onChange={(e) => {
                   setCity(e.target.value);
                 }}
+                required
               />
             </Form.Group>
           </Col>
@@ -177,11 +220,13 @@ function CheckoutForm({ cartToken }) {
             <Form.Group>
               <Form.Label className="fw-bold">Province</Form.Label>
               <Form.Select
+                type="text"
                 value={province}
                 onChange={(e) => {
                   setProvince(e.target.value);
                 }}
                 multiple={false}
+                required
               >
                 {c_provinces.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -195,11 +240,13 @@ function CheckoutForm({ cartToken }) {
             <Form.Group>
               <Form.Label className="fw-bold">Country</Form.Label>
               <Form.Select
+                type="text"
                 value={country}
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
                 multiple={false}
+                required
               >
                 {c_countries.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -220,6 +267,7 @@ function CheckoutForm({ cartToken }) {
                   setShipping(e.target.value);
                 }}
                 multiple={false}
+                required
               >
                 {c_options.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -237,9 +285,28 @@ function CheckoutForm({ cartToken }) {
                 onChange={(e) => {
                   setPayment(e.target.value);
                 }}
+                required
+                disabled
               >
                 <option>Credit Card</option>
               </Form.Select>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className="py-2">
+          <Col className="d-flex justify-content-center">
+            <Form.Group>
+              <Button
+                type="submit"
+                className="btn btn-sm shadow-sm rounded btn-primary-new d-flex align-items-center "
+                style={{ width: "fit-content" }}
+                onClick={handleSubmit}
+              >
+                <FaStream size={20} />
+                <div className="p-1 d-flex justify-content-end">
+                  Submit Details
+                </div>
+              </Button>
             </Form.Group>
           </Col>
         </Row>

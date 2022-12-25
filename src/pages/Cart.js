@@ -13,7 +13,6 @@ function Cart() {
       setLoading(true);
     });
   };
-  console.log(product);
 
   const removeFromCart = async (getID) => {
     await commerce.cart.remove(getID).then((products) => {
@@ -27,7 +26,7 @@ function Cart() {
   };
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [product]);
   return (
     <>
       {loading ? (

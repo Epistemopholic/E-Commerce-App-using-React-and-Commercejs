@@ -15,18 +15,17 @@ function CartTableData({ data, getID_2, getIQ_2 }) {
   let decButton = () => {
     getIQ_2(data.id, data.quantity - 1);
   };
-
   return (
     <>
-      <td className="p-2">
+      <td>
         <img
           src={data.image.url}
           height="80px"
           width="80px"
-          className="rounded align-middle"
+          className="rounded"
           alt={data.name}
         />
-        <span className="px-2">{data.name}</span>
+        <span className="px-2 align-middle">{data.name}</span>
       </td>
       <td className="align-middle">{data.price.formatted_with_code}</td>
       <td className="align-middle">

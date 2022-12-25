@@ -34,9 +34,7 @@ function Footer() {
           <div className="p-1">
             The moment you enter one of our stores you will experience a new
             level of serenity and good taste. Worth mentioning is that you can
-            take the very same experience and class home; simply by selecting
-            the product of your choice individually or in combination with the
-            coordinated theme.
+            take the very same experience and class home.
           </div>
         </Col>
         <Col>
