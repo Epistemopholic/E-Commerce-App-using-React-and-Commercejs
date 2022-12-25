@@ -8,6 +8,10 @@ import CheckoutForm from "./CheckoutForm";
 import CheckoutSidebar from "./CheckoutSidebar";
 function CheckoutCard({ cartToken }) {
   const [data, setData] = useState({});
+  const [info, setValue] = useState("");
+  const getInfo = (value) => {
+    setValue(value);
+  };
   const getCheckoutData = (
     country,
     province,
@@ -43,13 +47,18 @@ function CheckoutCard({ cartToken }) {
               <CheckoutForm
                 cartToken={cartToken}
                 getCheckoutData={getCheckoutData}
+                getInfo={getInfo}
               />
             </Card>
           </Col>
           <Col className="col-md-4 sidebar">
             <Row className="gap-2">
               <Card className="shadow-lg border-0">
-                <CheckoutSidebar cartToken={cartToken} data={data} />
+                <CheckoutSidebar
+                  cartToken={cartToken}
+                  data={data}
+                  info={info}
+                />
               </Card>
               <Card className="shadow-lg border-0"></Card>
             </Row>

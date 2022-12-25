@@ -6,7 +6,7 @@ import { commerce } from "../lib/commerce";
 import { FaStream } from "react-icons/fa";
 import Button from "react-bootstrap/Form";
 
-function CheckoutForm({ cartToken, getCheckoutData }) {
+function CheckoutForm({ cartToken, getCheckoutData, getInfo }) {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
   const [province, setProvince] = useState("");
@@ -41,6 +41,7 @@ function CheckoutForm({ cartToken, getCheckoutData }) {
         city,
         postalCode
       );
+      getInfo(false);
     }
   };
   const checkoutCountry = async () => {
@@ -91,6 +92,7 @@ function CheckoutForm({ cartToken, getCheckoutData }) {
 
   useEffect(() => {
     checkoutCountry(cartToken);
+    getInfo(true);
     // eslint-disable-next-line
   }, []);
   useEffect(() => {

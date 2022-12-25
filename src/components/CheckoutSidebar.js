@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import { FaStream } from "react-icons/fa";
@@ -11,7 +11,7 @@ import { FcOk } from "react-icons/fc";
 import { FcCancel } from "react-icons/fc";
 
 import "./CheckoutSidebar.css";
-function CheckoutSidebar({ cartToken, data }) {
+function CheckoutSidebar({ cartToken, data, info }) {
   const [creditCard, setCC] = useState("");
   const [sCode, setSC] = useState("");
   const [expMon, setMonth] = useState("");
@@ -27,7 +27,6 @@ function CheckoutSidebar({ cartToken, data }) {
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
-
   const checkoutForm = async () => {
     await commerce.checkout
       .capture(cartToken.id, {
@@ -69,7 +68,6 @@ function CheckoutSidebar({ cartToken, data }) {
       .then((order) => {
         setOrder(order);
         handleShow2();
-        console.log(order);
       })
       .catch((error) => {
         setError(error.message);
@@ -102,6 +100,7 @@ function CheckoutSidebar({ cartToken, data }) {
                   setCC(e.target.value);
                 }}
                 required
+                disabled={info}
               />
             </Form.Group>
           </Col>
@@ -118,6 +117,7 @@ function CheckoutSidebar({ cartToken, data }) {
                   setMonth(e.target.value);
                 }}
                 required
+                disabled={info}
               />
             </Form.Group>
           </Col>
@@ -132,6 +132,7 @@ function CheckoutSidebar({ cartToken, data }) {
                   setYear(e.target.value);
                 }}
                 required
+                disabled={info}
               />
             </Form.Group>
           </Col>
@@ -148,6 +149,7 @@ function CheckoutSidebar({ cartToken, data }) {
                   setSC(e.target.value);
                 }}
                 required
+                disabled={info}
               />
             </Form.Group>
           </Col>
