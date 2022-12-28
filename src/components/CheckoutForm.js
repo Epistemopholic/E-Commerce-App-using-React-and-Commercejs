@@ -5,8 +5,13 @@ import React, { useEffect, useState } from "react";
 import { commerce } from "../lib/commerce";
 import { FaStream } from "react-icons/fa";
 import Button from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import { FcOk } from "react-icons/fc";
+import { FcCancel } from "react-icons/fc";
+import Container from "react-bootstrap/Container";
+import "./CheckoutForm.css";
 
-function CheckoutForm({ cartToken, getCheckoutData, getInfo }) {
+function CheckoutForm({ cartToken }) {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
   const [province, setProvince] = useState("");
@@ -22,6 +27,70 @@ function CheckoutForm({ cartToken, getCheckoutData, getInfo }) {
   const [payment, setPayment] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [validated, setValidated] = useState(false);
+  const [creditCard, setCC] = useState("");
+  const [sCode, setSC] = useState("");
+  const [expMon, setMonth] = useState("");
+  const [expYr, setYear] = useState("");
+
+  const [cur_error, setError] = useState("");
+  const [cur_order, setOrder] = useState("");
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [show2, setShow2] = useState(false);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+
+  const checkoutForm = async () => {
+    await commerce.checkout
+      .capture(cartToken.id, {
+        customer: {
+          firstname: firstName,
+          lastname: lastName,
+          email: email,
+        },
+        shipping: {
+          name: firstName,
+          street: address,
+          town_city: city,
+          county_state: province,
+          postal_zip_code: postalCode,
+          country: country,
+        },
+        fulfillment: {
+          shipping_method: shipping,
+        },
+        billing: {
+          name: firstName,
+          street: address,
+          town_city: city,
+          county_state: province,
+          postal_zip_code: postalCode,
+          country: country,
+        },
+        payment: {
+          gateway: "test_gateway",
+          card: {
+            number: creditCard,
+            expiry_month: expMon,
+            expiry_year: expYr,
+            cvc: sCode,
+            postal_zip_code: postalCode,
+          },
+        },
+      })
+      .then((order) => {
+        setOrder(order);
+        handleShow2();
+      })
+      .catch((error) => {
+        setError(error.message);
+        handleShow();
+      });
+  };
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -29,19 +98,7 @@ function CheckoutForm({ cartToken, getCheckoutData, getInfo }) {
       event.stopPropagation();
     } else {
       setValidated(true);
-      getCheckoutData(
-        country,
-        province,
-        shipping,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        address,
-        city,
-        postalCode
-      );
-      getInfo(false);
+      checkoutForm();
     }
   };
   const checkoutCountry = async () => {
@@ -57,7 +114,7 @@ function CheckoutForm({ cartToken, getCheckoutData, getInfo }) {
     id: code,
     label: name,
   }));
-
+  console.log(cartToken);
   const checkoutProvince = async (countryCode) => {
     const { subdivisions } =
       await commerce.services.localeListShippingSubdivisions(
@@ -92,7 +149,6 @@ function CheckoutForm({ cartToken, getCheckoutData, getInfo }) {
 
   useEffect(() => {
     checkoutCountry(cartToken);
-    getInfo(true);
     // eslint-disable-next-line
   }, []);
   useEffect(() => {
@@ -295,24 +351,141 @@ function CheckoutForm({ cartToken, getCheckoutData, getInfo }) {
             </Form.Group>
           </Col>
         </Row>
+        <hr />
+        <Row className=" d-flex justify-content-center">
+          <Container className="py-2 col-md-6">
+            <p className="bg-primary-new">test gateway: 4242424242424242</p>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <Form.Label className="fw-bold">
+                    Credit Card Number
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Credit Card Number"
+                    value={creditCard}
+                    onChange={(e) => {
+                      setCC(e.target.value);
+                    }}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className="py-2">
+              <Col>
+                <Form.Group>
+                  <Form.Label className="fw-bold">Expiry Month</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Expiry Month"
+                    value={expMon}
+                    onChange={(e) => {
+                      setMonth(e.target.value);
+                    }}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label className="fw-bold">Expiry Year</Form.Label>
+                  <Form.Control
+                    type="year"
+                    placeholder="Expiry Year"
+                    value={expYr}
+                    onChange={(e) => {
+                      setYear(e.target.value);
+                    }}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="col-md-6 pb-2">
+                <Form.Group>
+                  <Form.Label className="fw-bold">CVC Code</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="CVC"
+                    value={sCode}
+                    onChange={(e) => {
+                      setSC(e.target.value);
+                    }}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </Container>
+        </Row>
         <Row className="py-2">
           <Col className="d-flex justify-content-center">
-            <Form.Group>
-              <Button
-                type="submit"
-                className="btn btn-sm shadow-sm rounded btn-primary-new d-flex align-items-center "
-                style={{ width: "fit-content" }}
-                onClick={handleSubmit}
-              >
-                <FaStream size={20} />
-                <div className="p-1 d-flex justify-content-end">
-                  Submit Details
-                </div>
-              </Button>
-            </Form.Group>
+            <Button
+              type="submit"
+              className="btn btn-sm shadow-sm rounded btn-primary-new d-flex align-items-center "
+              style={{ width: "fit-content" }}
+              onClick={handleSubmit}
+            >
+              <FaStream size={20} />
+              <div className="p-1 d-flex justify-content-end">Submit</div>
+            </Button>
           </Col>
         </Row>
       </Form>
+      <div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Order Failed!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="msg-body">
+            <div>
+              <FcCancel size={50} />
+            </div>
+            <div>
+              <span className="fw-bold">Reason: </span>
+              {cur_error}
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              varient="primary"
+              className="btn btn-primary-new"
+              onClick={handleClose}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+      <div>
+        <Modal show={show2} onHide={handleClose2}>
+          <Modal.Header closeButton>
+            <Modal.Title>Order Sucessful!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="msg-body">
+            <div>
+              <FcOk size={50} />
+              <p>Order Successfully Placed</p>
+            </div>
+            <div>
+              <p className="fw-bold">Order ID# </p>
+              <span>{cur_order.id}</span>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              varient="primary"
+              className="btn btn-primary-new"
+              onClick={handleClose2}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </>
   );
 }

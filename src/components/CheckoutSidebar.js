@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import { FaStream } from "react-icons/fa";
@@ -10,7 +10,6 @@ import Modal from "react-bootstrap/Modal";
 import { FcOk } from "react-icons/fc";
 import { FcCancel } from "react-icons/fc";
 
-import "./CheckoutSidebar.css";
 function CheckoutSidebar({ cartToken, data, info }) {
   const [creditCard, setCC] = useState("");
   const [sCode, setSC] = useState("");
