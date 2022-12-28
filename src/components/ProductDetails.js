@@ -3,13 +3,16 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import { Link } from "react-router-dom";
 import { AiOutlineShopping } from "react-icons/ai";
 import Badge from "react-bootstrap/Badge";
 import "./ProductDetails.css";
 import Form from "react-bootstrap/Form";
+import SpinnerButton from "./Spinner";
 
-function ProductDetails({ singleProduct, onAddToCart }) {
+function ProductDetails({ singleProduct, onAddToCart, show }) {
+  const clickHandler = () => {
+    onAddToCart(singleProduct.id, count, vG, varient);
+  };
   let [count, SetCount] = useState(1);
   let incButton = () => {
     count++;
@@ -112,17 +115,14 @@ function ProductDetails({ singleProduct, onAddToCart }) {
                 ))}
               </Row>
               <Col className="pt-4">
-                <Link
-                  type="Button"
+                <Button
                   className="btn btn-sm shadow-sm rounded btn-primary-new d-flex align-items-center "
                   style={{ width: "fit-content" }}
-                  onClick={() =>
-                    onAddToCart(singleProduct.id, count, vG, varient)
-                  }
+                  onClick={clickHandler}
                 >
-                  <AiOutlineShopping size={20} />
+                  {show ? <SpinnerButton /> : <AiOutlineShopping size={20} />}
                   <span className="p-1">Add to Cart</span>
-                </Link>
+                </Button>
               </Col>
             </div>
           </Col>

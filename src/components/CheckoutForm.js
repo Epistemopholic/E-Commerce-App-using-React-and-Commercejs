@@ -3,15 +3,17 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import React, { useEffect, useState } from "react";
 import { commerce } from "../lib/commerce";
-import { FaStream } from "react-icons/fa";
+import { MdPayment } from "react-icons/md";
 import Button from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { FcOk } from "react-icons/fc";
 import { FcCancel } from "react-icons/fc";
 import Container from "react-bootstrap/Container";
 import "./CheckoutForm.css";
-
+import SpinnerButton from "./Spinner";
 function CheckoutForm({ cartToken }) {
+  const [showLoading, setShowLoading] = useState(false);
+
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
   const [province, setProvince] = useState("");
@@ -44,6 +46,7 @@ function CheckoutForm({ cartToken }) {
   const handleShow2 = () => setShow2(true);
 
   const checkoutForm = async () => {
+    setShowLoading(true);
     await commerce.checkout
       .capture(cartToken.id, {
         customer: {
@@ -89,6 +92,7 @@ function CheckoutForm({ cartToken }) {
         setError(error.message);
         handleShow();
       });
+    setShowLoading(false);
   };
 
   const handleSubmit = (event) => {
@@ -166,7 +170,12 @@ function CheckoutForm({ cartToken }) {
         Enter Your Details
         <hr></hr>
       </div>
-      <Form className="mx-2 py-2 px-2" noValidate validated={validated}>
+      <Form
+        className="mx-2 py-2 px-2"
+        noValidate
+        validated={validated}
+        onSubmit={handleSubmit}
+      >
         <Row>
           <Form.Group>
             <Form.Label className="fw-bold">Name</Form.Label>
@@ -429,7 +438,7 @@ function CheckoutForm({ cartToken }) {
               style={{ width: "fit-content" }}
               onClick={handleSubmit}
             >
-              <FaStream size={20} />
+              {showLoading ? <SpinnerButton /> : <MdPayment size={20} />}
               <div className="p-1 d-flex justify-content-end">Submit</div>
             </Button>
           </Col>

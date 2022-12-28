@@ -11,7 +11,7 @@ function Product() {
   // eslint-disable-next-line
   const [cart, setCart] = useState({});
   const [product, setProducts] = useState([]);
-
+  const flag = "false";
   const fetchProducts = async () => {
     await commerce.products.retrieve(productID).then((products) => {
       setProducts(products);
@@ -24,15 +24,18 @@ function Product() {
     setCart(await commerce.cart.retrieve());
   };
   // adding items to cart using child to parent data props
+  const [show, setShow] = useState(false);
   const addToCart = async (
     productID,
     productQuantity,
     vareintGroup,
     vareintOpt
   ) => {
+    setShow(true);
     await commerce.cart.add(productID, productQuantity).then((cartItems) => {
       setCart(cartItems.cart);
     });
+    setShow(false);
   };
   useEffect(() => {
     fetchProducts();
@@ -43,7 +46,11 @@ function Product() {
   return (
     <>
       {loading ? (
-        <ProductDetails singleProduct={product} onAddToCart={addToCart} />
+        <ProductDetails
+          singleProduct={product}
+          onAddToCart={addToCart}
+          show={show}
+        />
       ) : (
         <Loading />
       )}
