@@ -103,7 +103,7 @@ function CheckoutForm({ cartToken }) {
     } else {
       setValidated(true);
     }
-    if (validated == true) checkoutForm();
+    if (validated === true) checkoutForm();
   };
   const checkoutCountry = async () => {
     await commerce.services

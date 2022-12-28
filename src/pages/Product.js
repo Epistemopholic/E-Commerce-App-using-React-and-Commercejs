@@ -11,7 +11,6 @@ function Product() {
   // eslint-disable-next-line
   const [cart, setCart] = useState({});
   const [product, setProducts] = useState([]);
-  const flag = "false";
   const fetchProducts = async () => {
     await commerce.products.retrieve(productID).then((products) => {
       setProducts(products);
