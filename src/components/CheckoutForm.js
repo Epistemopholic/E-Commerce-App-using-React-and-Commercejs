@@ -102,8 +102,8 @@ function CheckoutForm({ cartToken }) {
       event.stopPropagation();
     } else {
       setValidated(true);
-      checkoutForm();
     }
+    if (validated == true) checkoutForm();
   };
   const checkoutCountry = async () => {
     await commerce.services
@@ -118,7 +118,6 @@ function CheckoutForm({ cartToken }) {
     id: code,
     label: name,
   }));
-  console.log(cartToken);
   const checkoutProvince = async (countryCode) => {
     const { subdivisions } =
       await commerce.services.localeListShippingSubdivisions(
@@ -181,7 +180,7 @@ function CheckoutForm({ cartToken }) {
             <Form.Label className="fw-bold">Name</Form.Label>
           </Form.Group>
           <Col>
-            <Form.Group>
+            <Form.Group controlId="validationCustom01">
               <Form.Control
                 type="text"
                 placeholder="First Name"
@@ -194,7 +193,7 @@ function CheckoutForm({ cartToken }) {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group>
+            <Form.Group controlId="validationCustom02">
               <Form.Control
                 type="text"
                 placeholder="Last Name"
@@ -209,7 +208,7 @@ function CheckoutForm({ cartToken }) {
         </Row>
         <Row className="py-2">
           <Col>
-            <Form.Group>
+            <Form.Group controlId="validationCustom03">
               <Form.Label className="fw-bold">Email Address</Form.Label>
               <Form.Control
                 type="text"
@@ -223,7 +222,7 @@ function CheckoutForm({ cartToken }) {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group>
+            <Form.Group controlId="validationCustom04">
               <Form.Label className="fw-bold">Phone Number</Form.Label>
               <Form.Control
                 type="number"
@@ -239,7 +238,7 @@ function CheckoutForm({ cartToken }) {
         </Row>
         <Row className="py-2">
           <Col className="col-md-8">
-            <Form.Group>
+            <Form.Group controlId="validationCustom05">
               <Form.Label className="fw-bold">Shipping Address</Form.Label>
               <Form.Control
                 as="textarea"
@@ -254,7 +253,7 @@ function CheckoutForm({ cartToken }) {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group>
+            <Form.Group controlId="validationCustom06">
               <Form.Label className="fw-bold">Postal Code</Form.Label>
               <Form.Control
                 type="number"
@@ -270,7 +269,7 @@ function CheckoutForm({ cartToken }) {
         </Row>
         <Row>
           <Col>
-            <Form.Group>
+            <Form.Group controlId="validationCustom07">
               <Form.Label className="fw-bold">City</Form.Label>
               <Form.Control
                 type="text"
@@ -284,7 +283,7 @@ function CheckoutForm({ cartToken }) {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group>
+            <Form.Group controlId="validationCustom08">
               <Form.Label className="fw-bold">Province</Form.Label>
               <Form.Select
                 type="text"
@@ -304,7 +303,7 @@ function CheckoutForm({ cartToken }) {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group>
+            <Form.Group controlId="validationCustom09">
               <Form.Label className="fw-bold">Country</Form.Label>
               <Form.Select
                 type="text"
@@ -326,7 +325,7 @@ function CheckoutForm({ cartToken }) {
         </Row>
         <Row className="py-2">
           <Col className="col-md-6">
-            <Form.Group>
+            <Form.Group controlId="validationCustom10">
               <Form.Label className="fw-bold">Shipping Method</Form.Label>
               <Form.Select
                 value={shipping}
@@ -345,7 +344,7 @@ function CheckoutForm({ cartToken }) {
             </Form.Group>
           </Col>
           <Col className="col-md-6">
-            <Form.Group>
+            <Form.Group controlId="validationCustom11">
               <Form.Label className="fw-bold">Payment Method</Form.Label>
               <Form.Select
                 value={payment}
@@ -366,7 +365,7 @@ function CheckoutForm({ cartToken }) {
             <p className="bg-primary-new">test gateway: 4242424242424242</p>
             <Row>
               <Col>
-                <Form.Group>
+                <Form.Group controlId="validationCustom12">
                   <Form.Label className="fw-bold">
                     Credit Card Number
                   </Form.Label>
@@ -384,7 +383,7 @@ function CheckoutForm({ cartToken }) {
             </Row>
             <Row className="py-2">
               <Col>
-                <Form.Group>
+                <Form.Group controlId="validationCustom13">
                   <Form.Label className="fw-bold">Expiry Month</Form.Label>
                   <Form.Control
                     type="number"
@@ -398,7 +397,7 @@ function CheckoutForm({ cartToken }) {
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group>
+                <Form.Group controlId="validationCustom14">
                   <Form.Label className="fw-bold">Expiry Year</Form.Label>
                   <Form.Control
                     type="year"
@@ -414,7 +413,7 @@ function CheckoutForm({ cartToken }) {
             </Row>
             <Row>
               <Col className="col-md-6 pb-2">
-                <Form.Group>
+                <Form.Group controlId="validationCustom15">
                   <Form.Label className="fw-bold">CVC Code</Form.Label>
                   <Form.Control
                     type="number"
