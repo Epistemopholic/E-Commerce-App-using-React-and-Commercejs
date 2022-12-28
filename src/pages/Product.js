@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import ProductDetails from "../components/ProductDetails";
+
 function Product() {
   const { productID } = useParams();
   const [loading, setLoading] = useState(false);

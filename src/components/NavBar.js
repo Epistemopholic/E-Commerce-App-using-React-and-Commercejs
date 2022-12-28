@@ -9,7 +9,7 @@ import NavBarCart from "./NavBarCart";
 
 function NavBar() {
   return (
-    <Navbar collapseOnSelect expand="sm" className="navbar-bg-new ">
+    <Navbar className="navbar-bg-new custom-padding">
       <Container py="true">
         <Link to="/" className="Navbar.Brand">
           <img src={logo} alt="Logo" />

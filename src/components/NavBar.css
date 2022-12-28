@@ -52,3 +52,7 @@
     padding-left: 0px;
   }
 }
+
+.custom-padding {
+  padding: inherit;
+}
